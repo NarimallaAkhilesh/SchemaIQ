@@ -22,7 +22,7 @@ export default function QueryPanel({schema,useSchema})
 		try{
 			const payload = useSchema && schema ? schema : null
 
-			const res = await fetch("http://localhost:4000/api/query",{
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/api/query`,{
 				method:"POST",
 				headers:{"Content-Type":"application/json"},
 				body:JSON.stringify({prompt,schema:payload})
