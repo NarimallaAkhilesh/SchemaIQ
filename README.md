@@ -37,14 +37,6 @@ The platform helps students, developers, database designers, and analysts rapidl
 
 ---
 
-## Live Demo
-
-Frontend: https://your-vercel-url.vercel.app
-
-Backend API: https://your-render-url.onrender.com
-
----
-
 ## System Architecture
 
 ```text
@@ -126,7 +118,7 @@ README.md
 ### Clone Repository
 
 ```bash
-git clone https://github.com/gbpsharma/AI-Powered-Schema-Visualizer-and-SQL-Query-Generator.git
+git clone https://github.com/gbpsharma/SCHEMAIQ-AI-Powered-Schema-Visualizer-and-SQL-Query-Generator/tree/main
 cd AI-Powered-Schema-Visualizer-and-SQL-Query-Generator
 ```
 
