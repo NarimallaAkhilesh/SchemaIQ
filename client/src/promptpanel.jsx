@@ -14,11 +14,7 @@ export default function PromptPanel({onResult})
 		setError(null)
 
 		try {
-<<<<<<< HEAD
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/api/generate-schema`,{
-=======
-			const res = await fetch("http://localhost:4000/api/generate-schema",{
->>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
 				method:"POST",
 				headers:{"Content-Type":"application/json"},
 				body:JSON.stringify({prompt})

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # AI-Powered Schema Visualizer & SQL Query Generator
 
 ## Overview
@@ -212,11 +212,12 @@ Design a database for an online bookstore with customers, books, orders, and pay
 
 ## Author
 
-Bhanu Prakash Sharma
+Narimalla Akhilesh
 
-GitHub: https://github.com/gbpsharma
+GitHub: https://github.com/NarimallaAkhilesh
 
-LinkedIn: https://linkedin.com/in/gbpsharma
+LinkedIn: https://www.linkedin.com/in/narimalla-akhilesh
+
 =======
 # React + Vite
 

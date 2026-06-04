@@ -1,28 +1,22 @@
-import React,{useState} from "react"
-<<<<<<< HEAD
+import React, { useState } from "react"
 import PromptPanel from "./promptpanel"
 import QueryPanel from "./querypanel"
-=======
-import PromptPanel from "./PromptPanel"
-import QueryPanel from "./QueryPanel"
->>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
 import FlowDiagram from "./flowdiagram"
 import "./styles.css"
 
 // Logo placeholder (use in future)
 // import logo from "./assets/logo.png"
 
-export default function App()
-{
-	const[schema,setSchema]=useState(null)
-	const[currentPage,setCurrentPage]=useState("schema")
-	const[queryMode,setQueryMode]=useState("manual")
+export default function App() {
+	const [schema, setSchema] = useState(null)
+	const [currentPage, setCurrentPage] = useState("schema")
+	const [queryMode, setQueryMode] = useState("manual")
 
-	const goSchema=()=>setCurrentPage("schema")
-	const goQueryManual=()=>{ setQueryMode("manual"); setCurrentPage("query") }
-	const goQuerySchema=()=>{ setQueryMode("schema"); setCurrentPage("query") }
+	const goSchema = () => setCurrentPage("schema")
+	const goQueryManual = () => { setQueryMode("manual"); setCurrentPage("query") }
+	const goQuerySchema = () => { setQueryMode("schema"); setCurrentPage("query") }
 
-	return(
+	return (
 		<div className="app-container">
 
 			{/* Navbar */}
@@ -39,14 +33,14 @@ export default function App()
 
 				<div className="nav-buttons">
 					<button
-						className={`nav-btn ${currentPage==="schema"?"active":""}`}
+						className={`nav-btn ${currentPage === "schema" ? "active" : ""}`}
 						onClick={goSchema}
 					>
 						Schema generator
 					</button>
 
 					<button
-						className={`nav-btn ${currentPage==="query"?"active":""}`}
+						className={`nav-btn ${currentPage === "query" ? "active" : ""}`}
 						onClick={goQueryManual}
 					>
 						Query generator
@@ -58,7 +52,7 @@ export default function App()
 			<div className="page-wrapper">
 				<div className="page-content">
 
-					{currentPage==="schema" && (
+					{currentPage === "schema" && (
 						<SchemaPage
 							schema={schema}
 							onUpdate={setSchema}
@@ -66,7 +60,7 @@ export default function App()
 						/>
 					)}
 
-					{currentPage==="query" && (
+					{currentPage === "query" && (
 						<QueryPage
 							schema={schema}
 							queryMode={queryMode}
@@ -80,36 +74,35 @@ export default function App()
 	)
 }
 
-function SchemaPage({schema,onUpdate,onQueryClick})
-{
-	return(
+function SchemaPage({ schema, onUpdate, onQueryClick }) {
+	return (
 		<>
 			{/* Schema Generator Card */}
 			<div className="card">
 				<h2>Schema Generator</h2>
 				<p>Describe your system to generate a DB schema.</p>
 
-				<PromptPanel onResult={onUpdate}/>
+				<PromptPanel onResult={onUpdate} />
 			</div>
 
 			{/* Schema Diagram + Copy Button */}
 			{schema && (
 				<div className="card">
 
-					<div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<h3>Schema Diagram</h3>
 						<span className="schema-tag">ready for queries</span>
 					</div>
 
 					{/* Diagram Box with COPY JSON BUTTON */}
-					<div className="schema-box" style={{position:"relative"}}>
+					<div className="schema-box" style={{ position: "relative" }}>
 
-						<FlowDiagram schema={schema}/>
+						<FlowDiagram schema={schema} />
 
 						<button
 							className="copy-inside"
 							onClick={() =>
-								navigator.clipboard.writeText(JSON.stringify(schema,null,2))
+								navigator.clipboard.writeText(JSON.stringify(schema, null, 2))
 							}
 						>
 							Copy JSON
@@ -132,22 +125,21 @@ function SchemaPage({schema,onUpdate,onQueryClick})
 	)
 }
 
-function QueryPage({schema,queryMode})
-{
-	const useSchema=queryMode==="schema" && !!schema
+function QueryPage({ schema, queryMode }) {
+	const useSchema = queryMode === "schema" && !!schema
 
-	return(
+	return (
 		<div className="card">
 			<h2>Query Generator</h2>
 
-			<p style={{color:useSchema?"#16a34a":"#6b7280"}}>
+			<p style={{ color: useSchema ? "#16a34a" : "#6b7280" }}>
 				{useSchema
 					? "Using your generated schema automatically"
 					: "Schema not auto-attached"
 				}
 			</p>
 
-			<QueryPanel schema={schema} useSchema={useSchema}/>
+			<QueryPanel schema={schema} useSchema={useSchema} />
 		</div>
 	)
 }
