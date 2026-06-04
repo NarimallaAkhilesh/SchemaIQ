@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 dotenv.config();
 
@@ -14,6 +14,48 @@ const ai = new GoogleGenAI({
 	apiKey: process.env.GEMINI_API_KEY
 });
 
+/* Schema response structure for structured output */
+const schemaResponseSchema = {
+	type: Type.OBJECT,
+	properties: {
+		tables: {
+			type: Type.ARRAY,
+			items: {
+				type: Type.OBJECT,
+				properties: {
+					name: { type: Type.STRING },
+					columns: {
+						type: Type.ARRAY,
+						items: {
+							type: Type.OBJECT,
+							properties: {
+								name: { type: Type.STRING },
+								type: { type: Type.STRING },
+								pk: { type: Type.BOOLEAN },
+								fk: { type: Type.STRING }
+							},
+							required: ["name", "type"]
+						}
+					}
+				},
+				required: ["name", "columns"]
+			}
+		},
+		relations: {
+			type: Type.ARRAY,
+			items: {
+				type: Type.OBJECT,
+				properties: {
+					from: { type: Type.STRING },
+					to: { type: Type.STRING }
+				},
+				required: ["from", "to"]
+			}
+		}
+	},
+	required: ["tables", "relations"]
+};
+
 /* Generate Schema */
 app.post("/api/generate-schema",async(req,res)=>
 {
@@ -23,48 +65,15 @@ app.post("/api/generate-schema",async(req,res)=>
 
 		const response = await ai.models.generateContent({
 			model:"gemini-2.5-flash",
-			contents:`
-You are a database schema generator.
-
-Respond ONLY with valid JSON.
-
-Format:
-
-{
-	"tables":[
-		{
-			"name":"TableName",
-			"columns":[
-				{
-					"name":"column_name",
-					"type":"VARCHAR(255)",
-					"pk":true,
-					"fk":"other_table.column"
-				}
-			]
-		}
-	],
-	"relations":[
-		{
-			"from":"table1.column",
-			"to":"table2.column"
-		}
-	]
-}
-
-User Requirement:
-${prompt}
-`
+			contents:`Generate a relational database schema for: ${prompt}`,
+			config:{
+				responseMimeType:"application/json",
+				responseSchema: schemaResponseSchema,
+				thinkingConfig:{ thinkingBudget: 0 }
+			}
 		});
 
-		let text = response.text;
-
-		text = text
-			.replace(/```json/g,"")
-			.replace(/```/g,"")
-			.trim();
-
-		const schema = JSON.parse(text);
+		const schema = JSON.parse(response.text);
 
 		res.json(schema);
 	}
@@ -86,30 +95,21 @@ app.post("/api/query",async(req,res)=>
 		const { prompt,schema } = req.body;
 
 		const finalPrompt = schema
-			?
-`You are an expert SQL generator.
-
-Return ONLY valid SQL query.
-
-Schema:
-${JSON.stringify(schema,null,2)}
-
-Request:
-${prompt}`
-			:
-`You are an expert SQL generator.
-
-Return ONLY valid SQL query.
-
-Request:
-${prompt}`;
+			? `Generate SQL for: ${prompt}\nSchema: ${JSON.stringify(schema)}`
+			: `Generate SQL for: ${prompt}`;
 
 		const response = await ai.models.generateContent({
 			model:"gemini-2.5-flash",
-			contents:finalPrompt
+			contents:finalPrompt,
+			config:{
+				thinkingConfig:{ thinkingBudget: 0 }
+			}
 		});
 
-		const sql = response.text.trim();
+		let sql = response.text.trim();
+
+		/* Strip markdown code fences if present */
+		sql = sql.replace(/^```sql\s*/i,"").replace(/```$/,"").trim();
 
 		res.json({ sql });
 	}
