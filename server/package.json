@@ -7,9 +7,16 @@
     "start": "node index.js"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@google/genai": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2"
+=======
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "openai": "^6.5.0"
+>>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
   }
 }

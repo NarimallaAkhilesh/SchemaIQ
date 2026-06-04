@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 /* Global font */
 * {
 	font-family: "Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
+=======
+>>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
 /* Layout */
 .app-container {
 	min-height: 100vh;

@@ -1,6 +1,11 @@
 import React,{useState} from "react"
+<<<<<<< HEAD
 import PromptPanel from "./promptpanel"
 import QueryPanel from "./querypanel"
+=======
+import PromptPanel from "./PromptPanel"
+import QueryPanel from "./QueryPanel"
+>>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
 import FlowDiagram from "./flowdiagram"
 import "./styles.css"
 

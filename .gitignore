@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 .env
 dist/
@@ -12,3 +13,31 @@ server/node_modules/
 
 .DS_Store
 Thumbs.db
+=======
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+server/.env
+>>>>>>> 5d6e6ac1e3de6cf7a4755675ec09e4c245ed7237
